@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2005 Wine Dinner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang HK', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f5f7fa 0%, #e9edf5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 50px 40px;
+            max-width: 580px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12), 0 10px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a2634;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            text-align: center;
+            color: #6b7a8f;
+            font-size: 15px;
+            margin-bottom: 35px;
+            border-bottom: 2px dashed #d0d9e6;
+            padding-bottom: 18px;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-item {
+            background: white;
+            border-radius: 20px;
+            padding: 18px 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef2f8;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .link-item:hover {
+            border-color: #7c3aed;
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
+            transform: translateX(6px);
+        }
+
+        .link-number {
+            background: #7c3aed;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .link-item a {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            color: #1a2634;
+            word-break: break-all;
+            transition: color 0.2s;
+            flex: 1;
+        }
+
+        .link-item a:hover {
+            color: #7c3aed;
+        }
+
+        .link-item .arrow {
+            color: #b0c0d4;
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+
+        .link-item:hover .arrow {
+            transform: translateX(4px);
+            color: #7c3aed;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #8f9eb2;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid #e8edf5;
+        }
+
+        .footer-note span {
+            display: inline-block;
+            margin: 0 4px;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 18px;
+            }
+            .link-item {
+                padding: 14px 16px;
+                flex-wrap: wrap;
+            }
+            .link-item a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- header 已改為 2005 Wine Dinner -->
+        <h1>🍷 2005 Wine Dinner</h1>
+        <div class="sub">三條主題連結 · 點擊前往</div>
+
+        <div class="link-list">
+            <!-- 1. Gemini -->
+            <div class="link-item">
+                <span class="link-number">1</span>
+                <a href="https://alaw188.github.io/wine.github.io/2005_wine_gemini.html" target="_blank">Gemini</a>
+                <span class="arrow">→</span>
+            </div>
+
+            <!-- 2. Tencent -->
+            <div class="link-item">
+                <span class="link-number">2</span>
+                <a href="https://alaw188.github.io/wine.github.io/2005_wine_tencent.html" target="_blank">Tencent</a>
+                <span class="arrow">→</span>
+            </div>
+
+            <!-- 3. Nvidia -->
+            <div class="link-item">
+                <span class="link-number">3</span>
+                <a href="https://alaw188.github.io/wine.github.io/2005_wine_nvidia.html" target="_blank">Nvidia</a>
+                <span class="arrow">→</span>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span>⏎</span> 點擊連結會在新分頁開啟
+        </div>
+    </div>
+
+</body>
+</html>
