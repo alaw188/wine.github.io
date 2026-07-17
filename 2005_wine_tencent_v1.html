@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2005 Burgundy — A Vintage Dinner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg-0:#16060c;
+    --bg-1:#220a13;
+    --bg-2:#2c0e1a;
+    --card:rgba(255,255,255,0.035);
+    --card-strong:rgba(255,255,255,0.06);
+    --line:rgba(200,150,46,0.28);
+    --line-soft:rgba(255,255,255,0.10);
+    --burgundy:#7b1c3a;
+    --burgundy-deep:#5a1226;
+    --gold:#d8b15a;
+    --gold-soft:#e6cd95;
+    --cream:#f4ead9;
+    --cream-dim:#cdbfa9;
+    --text:#efe6d8;
+    --muted:#b6a892;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Inter","Helvetica Neue",Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 700px at 80% -10%, rgba(123,28,58,0.35), transparent 60%),
+      radial-gradient(900px 600px at 0% 10%, rgba(90,18,38,0.30), transparent 55%),
+      linear-gradient(160deg,var(--bg-0),var(--bg-1) 45%,var(--bg-2));
+    background-attachment:fixed;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold);text-decoration:none;}
+  img{max-width:100%;height:auto;display:block;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(18,6,11,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 22px;gap:14px;
+  }
+  .brand{
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:700;letter-spacing:.5px;color:var(--cream);
+    font-size:18px;white-space:nowrap;
+  }
+  .brand span{color:var(--gold);}
+  nav.links{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.links a{
+    color:var(--cream-dim);font-size:13px;font-weight:500;
+    padding:7px 11px;border-radius:999px;letter-spacing:.3px;
+    transition:.2s;
+  }
+  nav.links a:hover{color:var(--gold);background:var(--card-strong);}
+  .print-btn{
+    border:1px solid var(--line);color:var(--gold);
+    background:transparent;font:inherit;font-size:12.5px;font-weight:600;
+    padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;
+    transition:.2s;
+  }
+  .print-btn:hover{background:var(--gold);color:#1a060c;}
+  .menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--gold);font-size:20px;border-radius:8px;width:42px;height:38px;cursor:pointer;}
+
+  /* ---------- LAYOUT ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+  section{padding:64px 0;}
+  .eyebrow{
+    font-family:"Cormorant Garamond",Georgia,serif;
+    letter-spacing:3px;text-transform:uppercase;
+    color:var(--gold);font-size:15px;margin:0 0 10px;font-weight:600;
+  }
+  h1,h2,h3{font-family:"Playfair Display",Georgia,serif;color:var(--cream);margin:0;line-height:1.12;}
+  h2.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:6px;}
+  .section-sub{color:var(--muted);max-width:760px;font-size:16px;margin:8px 0 0;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:96px 0 72px;text-align:center;}
+  .hero .kicker{
+    font-family:"Cormorant Garamond",serif;font-style:italic;
+    color:var(--gold-soft);font-size:22px;margin-bottom:6px;
+  }
+  .hero h1{font-size:clamp(40px,7vw,76px);font-weight:900;letter-spacing:1px;}
+  .hero h1 em{color:var(--gold);font-style:normal;}
+  .hero .meta{
+    margin-top:18px;display:flex;gap:26px;justify-content:center;flex-wrap:wrap;
+    color:var(--cream-dim);font-size:14px;letter-spacing:.5px;
+  }
+  .hero .meta b{color:var(--cream);font-weight:600;}
+  .hero p.lead{
+    max-width:680px;margin:26px auto 0;color:var(--cream-dim);
+    font-size:17px;line-height:1.7;
+  }
+  .divider{width:120px;height:1px;margin:34px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+
+  /* ---------- GUIDE CARDS ---------- */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line-soft);
+    border-radius:16px;padding:26px 24px;
+  }
+  .card h3{font-size:21px;margin-bottom:10px;color:var(--gold-soft);}
+  .card p{margin:0;color:var(--cream-dim);font-size:14.5px;}
+  .card .num{
+    font-family:"Playfair Display",serif;font-size:30px;color:var(--gold);
+    opacity:.5;display:block;margin-bottom:6px;
+  }
+  .tip-list{margin:14px 0 0;padding:0;list-style:none;}
+  .tip-list li{padding:9px 0;border-top:1px solid var(--line-soft);font-size:14.5px;color:var(--cream-dim);}
+  .tip-list li:first-child{border-top:none;}
+  .tip-list b{color:var(--cream);font-weight:600;}
+
+  /* ---------- FLIGHT ORDER ---------- */
+  .flight{display:flex;flex-direction:column;gap:0;margin-top:8px;}
+  .flight-row{
+    display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
+    padding:16px 4px;border-top:1px solid var(--line-soft);
+  }
+  .flight-row:first-child{border-top:none;}
+  .flight-order{
+    width:38px;height:38px;border-radius:50%;flex:none;
+    display:grid;place-items:center;font-family:"Playfair Display",serif;
+    font-weight:700;color:#1a060c;background:var(--gold);font-size:17px;
+  }
+  .flight-name{font-weight:600;color:var(--cream);font-size:15.5px;}
+  .flight-name small{display:block;color:var(--muted);font-weight:400;font-size:13px;}
+  .flight-tag{font-size:12px;color:var(--gold);border:1px solid var(--line);padding:4px 10px;border-radius:999px;white-space:nowrap;}
+
+  /* ---------- WINE SECTIONS ---------- */
+  .wine{padding:72px 0;border-top:1px solid var(--line-soft);}
+  .wine-head{display:grid;grid-template-columns:300px 1fr;gap:36px;align-items:start;}
+  .bottle{
+    border-radius:14px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,0.05),rgba(0,0,0,0.25));
+    aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;padding:14px;
+  }
+  .bottle img{object-fit:contain;max-height:100%;width:auto;filter:drop-shadow(0 12px 26px rgba(0,0,0,.5));}
+  .wine-title{font-size:clamp(24px,3.4vw,34px);font-weight:700;}
+  .wine-sub{color:var(--gold-soft);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;margin-top:2px;}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px;}
+  .badge{font-size:12px;letter-spacing:.4px;color:var(--cream-dim);border:1px solid var(--line-soft);padding:5px 11px;border-radius:999px;background:var(--card);}
+  .badge b{color:var(--gold);font-weight:600;}
+
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 6px;}
+  .fact{background:var(--card);border:1px solid var(--line-soft);border-radius:12px;padding:13px 14px;}
+  .fact .lbl{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+  .fact .val{font-size:15px;color:var(--cream);font-weight:600;margin-top:3px;}
+
+  .detail{margin-top:24px;}
+  .detail h4{
+    font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold);
+    margin:0 0 6px;letter-spacing:.5px;font-weight:600;
+    display:flex;align-items:center;gap:10px;
+  }
+  .detail h4::before{content:"";width:22px;height:2px;background:var(--gold);display:inline-block;opacity:.7;}
+  .detail p{margin:0 0 14px;color:var(--cream-dim);font-size:15px;line-height:1.72;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:48px 0 64px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:13px;}
+  footer .note{max-width:680px;margin:0 auto 16px;line-height:1.7;}
+  footer b{color:var(--cream-dim);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .grid-2,.grid-3{grid-template-columns:1fr;}
+    .wine-head{grid-template-columns:1fr;gap:24px;}
+    .bottle{max-width:260px;margin:0 auto;}
+    .facts{grid-template-columns:1fr 1fr;}
+    nav.links{display:none;position:absolute;top:62px;left:0;right:0;flex-direction:column;background:rgba(18,6,11,0.97);padding:14px;gap:4px;border-bottom:1px solid var(--line);}
+    nav.links.open{display:flex;}
+    .menu-toggle{display:block;}
+    .print-btn{display:none;}
+  }
+  @media (max-width:520px){
+    .facts{grid-template-columns:1fr;}
+    section{padding:48px 0;}
+  }
+
+  /* ---------- PRINT / PDF ---------- */
+  @media print{
+    body{background:#fff !important;color:#1a1a1a;}
+    header.nav,.print-btn,.menu-toggle{display:none !important;}
+    section,.wine{padding:22px 0 !important;break-inside:avoid;border-color:#ccc !important;}
+    .wine,.card{break-inside:avoid;}
+    h1,h2,h3,h4,.wine-title{color:#5a1226 !important;}
+    .eyebrow,.detail h4,.badge b,.flight-tag{color:#8a6d1f !important;}
+    .card,.fact{background:#faf6f0 !important;border:1px solid #ddd !important;}
+    .bottle{background:#f3efe9 !important;border:1px solid #ddd !important;}
+    .hero,.wine{border-top:1px solid #ccc !important;}
+    a{color:#5a1226 !important;}
+    .section-sub,.card p,.detail p,.tip-list li,.flight-name small,.wine-sub{color:#333 !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">2005 <span>Burgundy</span></div>
+    <nav class="links" id="navlinks">
+      <a href="#guide">Serving &amp; Decanting</a>
+      <a href="#vintage">The Vintage</a>
+      <a href="#boudots">Boudots</a>
+      <a href="#chaumes">Chaumes</a>
+      <a href="#murgers">Murgers</a>
+      <a href="#closduroi">Clos du Roi</a>
+      <a href="#chaignots">Chaignots</a>
+    </nav>
+    <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+    <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">≡</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="kicker">A Tasting of Five 2005 Red Burgundies</div>
+  <h1>A <em>Vintage</em> Dinner</h1>
+  <div class="meta">
+    <span><b>Vintage</b> &nbsp;2005</span>
+    <span><b>Region</b> &nbsp;Côte de Nuits, Burgundy</span>
+    <span><b>Bottles</b> &nbsp;5 Premiers &amp; Grands Crus</span>
+  </div>
+  <p class="lead">Five bottles from one of Burgundy's modern legends — three from Méo-Camuzet, a Corton Grand Cru from Montille, and a Gouges from Nuits-St-Georges. Two decades in, the 2005s are arriving at their plateau: structured, perfumed, and built to reward a thoughtful pour.</p>
+  <div class="divider"></div>
+</section>
+
+<!-- SERVING & DECANTING GUIDE -->
+<section id="guide" class="wrap">
+  <p class="eyebrow">How to handle them</p>
+  <h2 class="section-title">Serving &amp; Decanting</h2>
+  <p class="section-sub">At ~20 years old these are mature but still carry the tannic grip and extract of a great structured vintage. The goal is to coax aromas open without bruising the delicate Pinot fruit.</p>
+
+  <div class="grid-3" style="margin-top:28px;">
+    <div class="card">
+      <span class="num">1</span>
+      <h3>Decant, gently</h3>
+      <p>Pour into a clean decanter to separate the light sediment that has formed and to let the wine breathe. Keep it <b>gentle</b> — avoid violent splashing. A short aeration of 30–90 min is plenty; Pinot is fragile and oxidises quickly.</p>
+    </div>
+    <div class="card">
+      <span class="num">2</span>
+      <h3>Serve cool</h3>
+      <p>Aim for <b>15–16 °C (59–61 °F)</b>. Too warm and the alcohol dominates; too cold and the bouquet shuts down. Slightly cool is safer — the wine warms gracefully in the glass.</p>
+    </div>
+    <div class="card">
+      <span class="num">3</span>
+      <h3>Taste as you go</h3>
+      <p>Open an hour ahead, then sample a small glass. If a wine smells tired or hollow, stop the aeration. If it's still tight, give it more air. Every bottle is individual at this age.</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:22px;">
+    <div class="card">
+      <h3>Preparation checklist</h3>
+      <ul class="tip-list">
+        <li><b>24 h before:</b> stand bottles upright so sediment settles to the base.</li>
+        <li><b>Decant carefully:</b> pour in one steady stream; leave the last drop (and grit) behind.</li>
+        <li><b>Glassware:</b> a large Burgundy balloon captures the perfume — don't skimp on bowl size.</li>
+        <li><b>Order:</b> pour lighter &amp; more elegant first, the biggest last (see flight below).</li>
+        <li><b>Don't over-decant:</b> if a wine flattens, it has had enough air — stop.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Suggested tasting flight</h3>
+      <div class="flight">
+        <div class="flight-row">
+          <div class="flight-order">1</div>
+          <div class="flight-name">Méo-Camuzet · Les Chaumes<small>Vosne-Romanée 1er Cru — the silkiest</small></div>
+          <div class="flight-tag">~30–45 min</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-order">2</div>
+          <div class="flight-name">Méo-Camuzet · Aux Boudots<small>Nuits-St-Georges 1er Cru — Vosne-like elegance</small></div>
+          <div class="flight-tag">~45–60 min</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-order">3</div>
+          <div class="flight-name">Méo-Camuzet · Aux Murgers<small>Nuits-St-Georges 1er Cru — deeper &amp; spicier</small></div>
+          <div class="flight-tag">~60–90 min</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-order">4</div>
+          <div class="flight-name">Henri Gouges · Les Chaignots<small>Nuits-St-Georges 1er Cru — structured</small></div>
+          <div class="flight-tag">~60–90 min</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-order">5</div>
+          <div class="flight-name">Montille · Corton Clos du Roi<small>Grand Cru — the most powerful, finish here</small></div>
+          <div class="flight-tag">~90–120 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VINTAGE -->
+<section id="vintage" class="wrap">
+  <p class="eyebrow">Why 2005 matters</p>
+  <h2 class="section-title">The 2005 Vintage</h2>
+  <p class="section-sub">2005 is widely regarded as one of Burgundy's greatest modern red vintages — a year of near-perfect conditions that produced wines of remarkable depth, structure and longevity.</p>
+  <div class="grid-3" style="margin-top:28px;">
+    <div class="card">
+      <h3>The growing season</h3>
+      <p>A dry, warm, sunny summer with just enough water stress to concentrate the crop. The result was exceptional <b>phenolic maturity</b> — ripe, velvety tannins married to a bright natural acidity.</p>
+    </div>
+    <div class="card">
+      <h3>The wines</h3>
+      <p>Deeply coloured, powerful and tightly wound in youth. Twenty years on, the structure is softening while the fruit and <b>terroir</b> speak clearly. Many will hold through the 2030s and beyond.</p>
+    </div>
+    <div class="card">
+      <h3>At the table tonight</h3>
+      <p>Expect tertiary notes — forest floor, dried rose, spice, game — layered over conserved dark fruit. A careful decant helps integrate the remaining tannin and lift the aromatics.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WINE 1 ===================== -->
+<section id="boudots" class="wine wrap">
+  <div class="wine-head">
+    <div class="bottle"><img src="real_images/boudots.jpg" alt="2005 Méo-Camuzet Aux Boudots bottle" /></div>
+    <div>
+      <div class="wine-title">Méo-Camuzet · Aux Boudots</div>
+      <div class="wine-sub">Nuits-St-Georges 1er Cru · 2005</div>
+      <div class="badges">
+        <span class="badge"><b>Producer:</b> Domaine Méo-Camuzet</span>
+        <span class="badge"><b>Appellation:</b> Nuits-St-Georges 1er Cru</span>
+        <span class="badge"><b>Climat:</b> Aux Boudots</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="lbl">Serve</div><div class="val">15–16 °C</div></div>
+        <div class="fact"><div class="lbl">Decant</div><div class="val">45–60 min</div></div>
+        <div class="fact"><div class="lbl">Drink</div><div class="val">Now–2035</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail">
+    <h4>Producer story</h4>
+    <p>Domaine Méo-Camuzet of Vosne-Romanée is one of the Côte de Nuits' most celebrated names. Jean-Nicolas Méo took the reins in 1989, and the domaine's history is entwined with the legendary Henri Jayer, who farmed Méo-Camuzet's vines for decades and advised through the transition to estate bottling. The wines are refined, perfumed and built for the long haul.</p>
+    <h4>Terroir &amp; climat</h4>
+    <p>Aux Boudots sits at the far north-western edge of Nuits-St-Georges, right against the Vosne-Romanée boundary (just below Les Malconsorts). That cooler, limestone-rich terroir lends a Vosne-like finesse — Boudots is often described as "Nuits dressed in Vosne clothing," carrying Nuits structure with Vosne perfume.</p>
+    <h4>The 2005 character</h4>
+    <p>A structured, powerful vintage that here is tamed by Boudots' elegance. Expect dark cherry and blackberry over violet and sweet spice, with fine, ripe tannins and a long, mineral finish.</p>
+    <h4>Tasting notes &amp; food</h4>
+    <p>Dark berry fruit, rose, liquorice and a whisper of earth. A wonderful partner to roast duck, game birds, or an aged Comté. Decant ~45–60 min and serve in a large Burgundy glass.</p>
+  </div>
+</section>
+
+<!-- ===================== WINE 2 ===================== -->
+<section id="chaumes" class="wine wrap">
+  <div class="wine-head">
+    <div class="bottle"><img src="real_images/chaumes.png" alt="2005 Méo-Camuzet Les Chaumes bottle" /></div>
+    <div>
+      <div class="wine-title">Méo-Camuzet · Les Chaumes</div>
+      <div class="wine-sub">Vosne-Romanée 1er Cru · 2005</div>
+      <div class="badges">
+        <span class="badge"><b>Producer:</b> Domaine Méo-Camuzet</span>
+        <span class="badge"><b>Appellation:</b> Vosne-Romanée 1er Cru</span>
+        <span class="badge"><b>Climat:</b> Les Chaumes</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="lbl">Serve</div><div class="val">15–16 °C</div></div>
+        <div class="fact"><div class="lbl">Decant</div><div class="val">30–45 min</div></div>
+        <div class="fact"><div class="lbl">Drink</div><div class="val">Now–2032</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail">
+    <h4>Producer story</h4>
+    <p>Same domaine as above — Méo-Camuzet, where Jean-Nicolas Méo channels a style informed by the Jayer legacy: aromatic, precise, and quietly powerful. In Vosne-Romanée the domaine's holdings are among the village's most admired.</p>
+    <h4>Terroir &amp; climat</h4>
+    <p>Les Chaumes is a central, slightly warmer Premier Cru in Vosne-Romanée, known for producing the village's most sensual, early-charming wines — silky, floral and perfumed rather than brooding. It is the gentle counterpoint to the more muscular Nuits cuvées.</p>
+    <h4>The 2005 character</h4>
+    <p>Even in a powerful year, Chaumes keeps its poise: the 2005 shows a silkiness that lifts the vintage's density. Rose, violet and red cherry lead, with sandalwood and a caressing texture.</p>
+    <h4>Tasting notes &amp; food</h4>
+    <p>Violets, red cherry, rose petal and a fine mineral seam. Ideal with roast pigeon, herb-crusted lamb, or a truffle dish. Gentle decanting of 30–45 min is enough to unveil the perfume.</p>
+  </div>
+</section>
+
+<!-- ===================== WINE 3 ===================== -->
+<section id="murgers" class="wine wrap">
+  <div class="wine-head">
+    <div class="bottle"><img src="real_images/murgers.jpg" alt="2005 Méo-Camuzet Aux Murgers bottle" /></div>
+    <div>
+      <div class="wine-title">Méo-Camuzet · Aux Murgers</div>
+      <div class="wine-sub">Nuits-St-Georges 1er Cru · 2005</div>
+      <div class="badges">
+        <span class="badge"><b>Producer:</b> Domaine Méo-Camuzet</span>
+        <span class="badge"><b>Appellation:</b> Nuits-St-Georges 1er Cru</span>
+        <span class="badge"><b>Climat:</b> Aux Murgers</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="lbl">Serve</div><div class="val">16 °C</div></div>
+        <div class="fact"><div class="lbl">Decant</div><div class="val">60–90 min</div></div>
+        <div class="fact"><div class="lbl">Drink</div><div class="val">Now–2038</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail">
+    <h4>Producer story</h4>
+    <p>From the same Méo-Camuzet cellar as Boudots and Chaumes, Aux Murgers is the most serious of the domaine's three Nuits Premiers Crus in this flight — a wine that rewards patience and a generous decant.</p>
+    <h4>Terroir &amp; climat</h4>
+    <p>"Murgers" is the local word for piles of limestone stones cleared from the vineyard. Aux Murgers lies in the northern Nuits sector near the Vosne boundary, on stony, well-drained limestone that yields a deeper, spicier, more ageworthy wine than Boudots.</p>
+    <h4>The 2005 character</h4>
+    <p>The most brooding of the Méo trio. Dark plum and black cherry, liquorice, clove and a stony earthiness frame firm, ripe tannins. This is a wine that still wants air and time — give it the longest decant of the three.</p>
+    <h4>Tasting notes &amp; food</h4>
+    <p>Concentrated dark fruit, spice and forest floor with a long, structured finish. Match with braised beef, venison, or a hard mountain cheese. Decant 60–90 min; serve at ~16 °C.</p>
+  </div>
+</section>
+
+<!-- ===================== WINE 4 ===================== -->
+<section id="closduroi" class="wine wrap">
+  <div class="wine-head">
+    <div class="bottle"><img src="real_images/montille.png" alt="2005 Montille Corton Clos du Roi bottle" /></div>
+    <div>
+      <div class="wine-title">Montille · Corton "Clos du Roi"</div>
+      <div class="wine-sub">Corton Grand Cru · 2005</div>
+      <div class="badges">
+        <span class="badge"><b>Producer:</b> Domaine de Montille</span>
+        <span class="badge"><b>Appellation:</b> Corton Grand Cru (red)</span>
+        <span class="badge"><b>Climat:</b> Clos du Roi</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="lbl">Serve</div><div class="val">16–17 °C</div></div>
+        <div class="fact"><div class="lbl">Decant</div><div class="val">90–120 min</div></div>
+        <div class="fact"><div class="lbl">Drink</div><div class="val">Now–2040+</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail">
+    <h4>Producer story</h4>
+    <p>Domaine de Montille of Volnay, long led by the late Hubert de Montille, is revered for a classical, restrained house style — wines of precision and enormous longevity rather than immediate charm. Today it is run by Etienne and Alix de Montille, carrying that disciplined, terroir-first philosophy forward.</p>
+    <h4>Terroir &amp; climat</h4>
+    <p>Clos du Roi ("the King's enclosure") is a historic walled parcel within Corton, on the Aloxe-Corton side of the hill at mid-slope. The limestone-rich clos gives wines of depth, power and structure — the grandest terroir of the evening.</p>
+    <h4>The 2005 character</h4>
+    <p>A monumental Grand Cru that will comfortably outlive the Premiers Crus around it. Blackcurrant and cassis, iron, graphite and forest floor, with tannins of real authority and a very long finish. This is the wine to pour last and linger over.</p>
+    <h4>Tasting notes &amp; food</h4>
+    <p>Profound dark fruit, mineral and game notes, monumental structure. Pair with roast venison, lamb, or truffle. Decant generously (90–120 min) and serve a touch warmer, ~16–17 °C.</p>
+  </div>
+</section>
+
+<!-- ===================== WINE 5 ===================== -->
+<section id="chaignots" class="wine wrap">
+  <div class="wine-head">
+    <div class="bottle"><img src="real_images/gouges.jpg" alt="2005 Henri Gouges Les Chaignots bottle" /></div>
+    <div>
+      <div class="wine-title">Henri Gouges · Les Chaignots</div>
+      <div class="wine-sub">Nuits-St-Georges 1er Cru · 2005</div>
+      <div class="badges">
+        <span class="badge"><b>Producer:</b> Domaine Henri Gouges</span>
+        <span class="badge"><b>Appellation:</b> Nuits-St-Georges 1er Cru</span>
+        <span class="badge"><b>Climat:</b> Les Chaignots</span>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="lbl">Serve</div><div class="val">15–16 °C</div></div>
+        <div class="fact"><div class="lbl">Decant</div><div class="val">60–90 min</div></div>
+        <div class="fact"><div class="lbl">Drink</div><div class="val">Now–2038</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail">
+    <h4>Producer story</h4>
+    <p>Domaine Henri Gouges has been family-owned in Nuits-St-Georges since 1919. Henri Gouges was a pioneer who bottled his own wine early and helped shape Burgundy's appellation system as a founder-member of the INAO. The house style is traditionally firm and ageworthy — wines that demand patience.</p>
+    <h4>Terroir &amp; climat</h4>
+    <p>Les Chaignots is the domaine's only parcel on the northern (Vosne) side of the village: a steep, south-east-facing slope of limestone scree below the Combe de la Serrée. That privileged site gives Chaignots a finesse unusual for the often-austere Gouges style.</p>
+    <h4>The 2005 character</h4>
+    <p>Structured and robust in the mould of the vintage, yet with the site's underlying elegance. Dark cherry and raspberry, warm spice and a mineral, firmly tannic finish that needs air to unfold.</p>
+    <h4>Tasting notes &amp; food</h4>
+    <p>Dark cherry, raspberry, clove and a stony minerality. Lovely with charcuterie, roast poultry, or an aged Gruyère. Decant 60–90 min and serve at 15–16 °C.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="note">
+    <b>About the images.</b> Bottle photographs are real product images sourced from wine-merchant listings (CaskCartel, Vougeot.vin, Ginsberg+Chan) and are used here for personal, non-commercial reference. Vintages shown in some merchant photos may differ from the 2005 bottles being served; the bottle and label design are unchanged across vintages for each domaine.
+  </div>
+  <div>Built as a personal dinner guide · 2005 Red Burgundy · Côte de Nuits</div>
+</footer>
+
+</body>
+</html>
