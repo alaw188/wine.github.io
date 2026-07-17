@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2005 Burgundy & Barolo Vertical Tasting</title>
+    <!-- Leaflet CSS for interactive maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --wine-red: #800000;
+            --wine-dark: #4b0000;
+            --wine-gold: #d4af37;
+            --text-light: #f0f0f0;
+            --text-dark: #1a1a1a;
+            --bg-dark: #0a0a0a;
+            --bg-medium: #1a1a1a;
+            --border-gold: rgba(212, 175, 55, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            color: var(--wine-gold);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--wine-red), var(--wine-dark));
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--wine-gold);
+            position: relative;
+        }
+        
+        position: relative;
+            display: inline-block;
+            border-bottom: 3px solid var(--wine-gold);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--wine-gold);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-gold);
+        }
+        
+        section:last-child {
+            border-bottom: none;
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            text-align: center;
+            line-height: 1.8;
+        }
+        
+        .map-container {
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            margin: 2rem 0;
+            border: 2px solid var(--wine-gold);
+        }
+        
+        .wine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .wine-card {
+            background: var(--bg-medium);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-gold);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .wine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        
+        .wine-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--wine-gold);
+        }
+        
+        .wine-details {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .wine-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--wine-gold);
+        }
+        
+        .producer {
+            font-style: italic;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        
+        .story {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        
+        .profile {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .profile-item {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .profile-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--wine-gold);
+        }
+        
+        .profile-value {
+            color: #bbb;
+        }
+        
+        .serve-box {
+            background: linear-gradient(135deg, var(--wine-dark), #2a0000);
+            border-left: 4px solid var(--wine-gold);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0 4px 4px 0;
+            font-size: 1.1rem;
+        }
+        
+        .serve-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--wine-dark);
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+        
+        .footer .social {
+            margin-top: 1.5rem;
+        }
+        
+        .footer .social a {
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer .social a:hover {
+            color: var(--wine-gold);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .wine-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>2005 Burgundy & Barolo Vertical Tasting</h1>
+            <p class="intro-text">An exploration of six exceptional wines from legendary vintages, showcasing the pinnacle of terroir expression from Burgundy's Côte d'Or and Piedmont's Langhe region.</p>
+        </div>
+    </header>
+
+    <section id="introduction">
+        <div class="container">
+            <h2>The 2005 Vintage: A Climatological Triumph</h2>
+            <p>The 2005 growing season in both Burgundy and Piedmont presented near-ideal climatic conditions: a cool, wet winter replenished groundwater reserves; a warm, dry spring promoted even budbreak and flowering; and a long, sunny summer with minimal disease pressure allowed for phenolic ripeness to develop alongside vibrant acidity. These conditions yielded wines of remarkable structure, depth, and longevity—attributes particularly evident in the structured, tannic framework of Nebbiolo and the pinot noir's ability to retain both fruit purity and earthy complexity.</p>
+            <p>This tasting examines six premier cru and grand cru expressions from esteemed producers, each illustrating the nuanced interplay of site-specific viticulture and vintage character.</p>
+        </div>
+    </section>
+
+    <section id="burgundy-map">
+        <div class="container">
+            <h2>Burgundy Vineyard Locations</h>
+            <p>The featured Burgundy wines originate from three distinguished communes within the Côte d'Or: Nuits-Saint-Georges and Vosne-Romanée in the Côte de Nuits, and Corton in the Côte de Beaune. Each commune imparts distinct geological and microclimatic influences.</p>
+            <div class="map-container" id="burgundy-map"></div>
+        </div>
+    </section>
+
+    <section id="barolo-map">
+        <div class="container">
+            <h2>Barolo Wine Region: Ginestra</h2>
+            <p>The Barolo wine originates from the Ginestra vigneto within the Barolo DOCG zone of Piedmont, Italy. Situated in the comune of Monforte d'Alba, Ginifera benefits from a south-southeast exposure and marl-rich sandstone soils, contributing to the wine's powerful structure and aromatic precision.</p>
+            <div class="map-container" id="barolo-map"></div>
+        </div>
+    </section>
+
+    <section id="wines">
+        <div class="container">
+            <h2>Featured Wines</h2>
+            <div class="wine-grid">
+                <!-- Wine 1: Aux Boudots -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Meo-Camuzet_Nuits-StGeorges_1er_Cru_Aux_Boudots.jpg" 
+                         alt="2005 Meo-Camuzet Nuits-St.Georges 1er Cru Aux Boudots" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domaine Méo-Camuzet</div>
+                        <div class="producer">2005 Nuits-Saint-Georges 1er Cru Aux Boudots</div>
+                        <div class="story">
+                            Situated on the upper slopes of Nuits-Saint-Georges, Aux Boudots benefits from deep, marl-limestone soils and optimal southern exposure. The 2005 vintage exhibits remarkable concentration, balancing dark fruit savoriness with structured tannins and vibrant acidity.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Black cherry, nutmeg, cocoa powder, roses, vanilla, woodsmoke</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Medium-full, deep and intense, sappy core, bright acids, great length and grip</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Gentle decant 30 minutes prior to serving; serve at 15–18°C.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wine 2: Les Chaumes -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Meo-Camuzet_Vosne-Romanee_1er_Cru_Les_Chaumes.jpg" 
+                         alt="2005 Meo-Camuzet Vosne-Romanee 1er Cru Les Chaumes" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domaine Méo-Camuzet</div>
+                        <div class="producer">2005 Vosne-Romanée 1er Cru Les Chaumes</div>
+                        <div class="story">
+                            Les Chaumes occupies a premier cru site in Vosne-Romanée characterized by its iron-rich limestone and clay soils. The 2005 demonstrates formidable density and tannic backbone, requiring extended aeration to reveal its intricate lattice of dark fruit, savory notes, and mineral depth.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Black fruits, game, cassis, elderberry, beet root, salty stony minerality, savory soy and meat juice</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Firm but ripe, rich in mouth, striking length, will become silky with age</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Decant 1 hour before serving; serve at 15–18°C.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wine 3: Aux Murgers -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Meo-Camuzet_Nuits-StGeorges_1er_Cru_Aux_Murgers.jpg" 
+                         alt="2005 Meo-Camuzet Nuits-St.Georges 1er Cru Aux Murgers" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domaine Méo-Camuzet</div>
+                        <div class="producer">2005 Nuits-Saint-Georges 1er Cru Aux Murgers</div>
+                        <div class="story">
+                            Located on the thinner, limestone-rich soils of Nuits-Saint-Georges' upper slope, Aux Murgers produces wines of notable finesse and minerality. The 2005 exhibits the maison's signature silky texture, framed by crisp acidity and a precise, cool finish.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Dark berry fruit, classic Meo silky texture, crisp acidity, mineral-inflection</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Taut and energetic, long cool finish, well-integrated balance</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Gentle decant 30 minutes; serve at 15–18°C.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wine 4: Clos du Roi -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Domaine_de_Montille_Corton_Grand_Cru_Clos_du_Roi.jpg" 
+                         alt="2005 Domaine de Montille Corton Grand Cru Clos du Roi" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domaine de Montille</div>
+                        <div class="producer">2005 Corton Grand Cru Clos du Roi</div>
+                        <div class="story">
+                            As a monopole within the Corton Grand Cru hill, Clos du Roi enjoys a unique microclimate and shallow, limestone-rich soils. The 2005 presents an elegant synthesis of floral red fruit, supple tannins, and lingering finish—hallmarks of the hill's southwestern sector.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Flora, violet, red cherry, mushroom, strawberry</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Medium+ acidity, medium tannin, outstanding quality, long finish</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Decant 45 minutes; serve at 16–18°C.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wine 5: Les Chaignots -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Henri_Gouges_Nuits-StGeorges_1er_Cru_Les_Chaignots.jpg" 
+                         alt="2005 Henri Gouges Nuits-St.Georges 1er Cru Les Chaignots" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domaine Henri Gouges</div>
+                        <div class="producer">2005 Nuits-Saint-Georges 1er Cru Les Chaignots</div>
+                        <div class="story">
+                            Les Chaignots, a historic premier cru in Nuits-Saint-Georges, is noted for its clay-limestone soils and proximity to the Vosne-Romanée border. The 2005 delivers a firm, structured profile with savory, farmyard nuances and excellent aging potential.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Farmy nose, positive fruit, built structure</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Full red colour, good fruit that built and built, excellent with cheeseboard</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Decant 1 hour; serve at 15–18°C.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wine 6: Ciabot Mentin Ginestra -->
+                <div class="wine-card">
+                    <img src="wine_images/2005_Domenico_Clerico_Ciabot_Mentin_Ginestra_Barolo_DOCG_Italy.jpg" 
+                         alt="2005 Domenico Clerico Ciabot Mentin Ginestra Barolo DOCG" 
+                         class="wine-image">
+                    <div class="wine-details">
+                        <div class="wine-name">Domenico Clerico</div>
+                        <div class="producer">2005 Barolo Ciabot Mentin Ginestra DOCG</div>
+                        <div class="story">
+                            Ginestra, a premier cru within Monforte d'Alba, features a southeastern exposure and marl-rich calcareous clay soils. The 2005 displays opulent dark fruit, floral lift, and impeccable balance between powerful tannins and vibrant acidity—a benchmark expression of the site.
+                        </div>
+                        <div class="profile">
+                            <div class="profile-item">
+                                <span class="profile-label">Aroma Profile:</span>
+                                <span class="profile-value">Dark plums, full bloom red rose, spices, sweet spices, menthol, violets, dark fruit</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">Palate:</span>
+                                <span class="profile-value">Great acidity, medium tannins, ruby/purple color, endless layers of sweet spices</span>
+                            </div>
+                        </div>
+                        <div class="serve-box">
+                            <span class="serve-label">Service:</span> Decant 2–3 hours; serve at 16–18°C.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Burgundy & Barolo Vertical Tasting | For educational purposes only</p>
+            <div class="social">
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Instagram">📸</a>
+                <a href="#" title="Facebook">👍</a>
+                <a href="#" title="LinkedIn">💼</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Burgundy map
+        const burgundyMap = L.map('burgundy-map').setView([47.15, 4.95], 9);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(burgundyMap);
+        
+        // Burgundy vineyard markers
+        const burgundyLocations = [
+            { name: "Aux Boudots", lat: 47.125, lng: 4.995, wine: "Aux Boudots" },
+            { name: "Les Chaumes", lat: 47.045, lng: 4.985, wine: "Les Chaumes" },
+            { name: "Aux Murgers", lat: 47.128, lng: 4.992, wine: "Aux Murgers" },
+            { name: "Clos du Roi", lat: 47.580, lng: 4.880, wine: "Clos du Roi" },
+            { name: "Les Chaignots", lat: 47.130, lng: 4.990, wine: "Les Chaignots" }
+        ];
+        
+        burgundyLocations.forEach(loc => {
+            L.marker([loc.lat, loc.lng])
+                .addTo(burgundyMap)
+                .bindPopup(`<b>${loc.name}</b><br>${loc.wine}`)
+                .on('mouseover', function(e) {
+                    this.openPopup();
+                })
+                .on('mouseout', function(e) {
+                    this.closePopup();
+                });
+        });
+        
+        // Initialize Barolo map
+        const baroloMap = L.map('barolo-map').setView([44.65, 8.05], 10);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(baroloMap);
+        
+        // Barolo vineyard marker
+        L.marker([44.65, 8.05])
+            .addTo(baroloMap)
+            .bindPopup('<b>Ginestra</b><br>Ciabot Mentin Ginestra Barolo')
+            .on('mouseover', function(e) {
+                this.openPopup();
+            })
+            .on('mouseout', function(e) {
+                this.closePopup();
+            });
+    </script>
+</body>
+</html>
